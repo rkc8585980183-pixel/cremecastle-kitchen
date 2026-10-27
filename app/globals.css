@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #F4F6F5;
+  --surface: #FFFFFF;
+  --surface-alt: #FBFAF7;
+  --ink: #1E2A28;
+  --sub: #6B7876;
+  --line: #E2E7E4;
+  --navy: #1F3A5F;
+  --navy-dark: #142845;
+  --teal: #1E7F72;
+  --teal-dark: #155F55;
+  --coral: #E15B4F;
+  --amber: #E0A030;
+  --danger: #C0463F;
+  --accent: #5B4FE0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+
+/* ---- Cream Castle admin theme (orange / dark brown / cream) ---- */
+:root {
+  --cc-cream: #FBF4E8;
+  --cc-cream-line: #EADFCB;
+  --cc-brown: #2B1810;
+  --cc-brown-2: #3B2417;
+  --cc-orange: #E8731A;
+  --cc-orange-deep: #C75B0C;
+}
+.cc-scroll { scrollbar-width: thin; scrollbar-color: rgba(138, 111, 92, 0.45) transparent; }
+.cc-scroll::-webkit-scrollbar { width: 6px; }
+.cc-scroll::-webkit-scrollbar-thumb { background: rgba(138, 111, 92, 0.45); border-radius: 6px; }
+
+.cc-hide-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.cc-hide-scroll::-webkit-scrollbar { display: none; }
