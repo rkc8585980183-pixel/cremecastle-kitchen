@@ -139,36 +139,37 @@ export default function AdminApp({ user }: { user: SessionUser }) {
     : { background: "#FBF4E8", border: "1px solid #EADFCB", color: "#3B2417" };
 
   return (
-    <div className={`min-h-screen flex ${darkMode ? "bg-[#1C110B]" : "bg-[#FBF4E8]"}`}>
+    <div className="min-h-screen flex" style={{ background: darkMode ? "#120B04" : "var(--bg)" }}>
       {/* Mobile overlay backdrop */}
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-[#1C0F08]/60 backdrop-blur-[2px] z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 z-30 lg:hidden" style={{ background: "rgba(15,8,2,0.65)", backdropFilter: "blur(3px)" }} onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`w-60 flex-shrink-0 flex flex-col fixed top-0 left-0 h-screen z-40 transition-transform duration-200 text-[#E8D5BF] bg-gradient-to-b from-[#2B1810] to-[#1D0F09] lg:shadow-[4px_0_24px_rgba(43,24,16,0.18)] ${
-          sidebarOpen ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.35)]" : "-translate-x-full"
+        className={`w-60 flex-shrink-0 flex flex-col fixed top-0 left-0 h-screen z-40 transition-transform duration-200 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0`}
+        style={{ background: "linear-gradient(180deg, #1E0F06 0%, #160A04 100%)", boxShadow: "4px 0 24px rgba(15,8,2,0.25)" }}
       >
-        <div className="flex items-center gap-2.5 px-4 py-4 border-b border-white/10">
-          <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 ring-2 ring-[#E8731A]/70 bg-gradient-to-br from-[#F28C38] to-[#C75B0C]">
+        <div className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 shadow-lg ring-2 ring-[rgba(232,115,26,0.5)]" style={{ background: "linear-gradient(135deg,#F28C38,#C75B0C)" }}>
             <img src="https://lh3.googleusercontent.com/d/1XNpcNjDPcpFxIoDjHMhoWOYAJtqQWshj=w96-h96" alt="" className="w-full h-full object-cover" />
           </div>
-          <div className="min-w-0">
-            <h2 className="text-[14.5px] font-bold leading-tight text-[#FFF4E3] truncate">Cream Castle</h2>
-            <span className="text-[10.5px] text-[#C9A27E]">{roleLabel === "Super Admin" ? "Super Admin Panel" : "Admin Panel"}</span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-[14px] font-black leading-tight truncate" style={{ color: "#FFF4E3" }}>Creme Castle</h2>
+            <span className="text-[10px] font-semibold" style={{ color: "#B08060" }}>{roleLabel === "Super Admin" ? "Super Admin" : "Admin Panel"}</span>
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="ml-auto text-[#E8D5BF] text-lg leading-none lg:hidden cursor-pointer" aria-label="Close menu">✕</button>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-lg leading-none cursor-pointer" style={{ color: "#B08060" }} aria-label="Close menu">✕</button>
         </div>
 
-        <nav className="cc-scroll flex-1 overflow-y-auto px-2.5 py-3">
+        <nav className="cc-scroll flex-1 overflow-y-auto px-2 py-3">
           {GROUP_ORDER.map((g) => {
             const list = visibleTabs.filter((t) => t.group === g);
             if (!list.length) return null;
             return (
-              <div key={g} className="mb-3.5">
-                <div className="px-3 mb-1 text-[9.5px] font-bold tracking-[0.16em] uppercase text-[#A9856B]">{g}</div>
+              <div key={g} className="mb-4">
+                <div className="px-3 mb-1.5" style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#7A5030" }}>{g}</div>
                 <div className="flex flex-col gap-0.5">
                   {list.map((t) => {
                     const active = activeTab === t.key;
@@ -176,12 +177,11 @@ export default function AdminApp({ user }: { user: SessionUser }) {
                       <button
                         key={t.key}
                         onClick={() => goTo(t.key)}
-                        style={active ? { background: "linear-gradient(135deg,#F28C38,#D2600B)", color: "#FFFFFF", boxShadow: "0 6px 14px rgba(232,115,26,0.28)" } : undefined}
-                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-left transition cursor-pointer ${
-                          active ? "" : "text-[#E8D5BF] hover:bg-white/[0.07] hover:text-white"
-                        }`}
+                        style={active ? { background: "linear-gradient(135deg,#E8731A,#C75B0C)", color: "#fff", boxShadow: "0 4px 12px rgba(232,115,26,0.30)" }
+                          : { color: "#D4B8A0" }}
+                        className={`flex items-center gap-2.5 px-3 py-[9px] rounded-xl text-[12.5px] font-semibold text-left transition cursor-pointer w-full ${!active ? "hover:bg-white/[0.07] hover:text-white" : ""}`}
                       >
-                        <span className="w-[18px] text-center text-[15px] leading-none">{t.icon}</span>
+                        <span className="w-5 text-center text-[14px] leading-none flex-shrink-0">{t.icon}</span>
                         <span className="truncate">{t.label}</span>
                       </button>
                     );
@@ -192,81 +192,73 @@ export default function AdminApp({ user }: { user: SessionUser }) {
           })}
         </nav>
 
-        <div className="p-3 border-t border-white/10">
-          <div className="flex items-center gap-2.5 rounded-xl bg-white/[0.06] px-2.5 py-2">
-            <div style={{ background: "linear-gradient(135deg,#F28C38,#C75B0C)", color: "#FFFFFF" }} className="w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-[13px] flex-shrink-0">
+        <div className="p-3" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+          <div className="flex items-center gap-2.5 rounded-xl px-2.5 py-2.5" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center font-black text-[13px] flex-shrink-0 text-white" style={{ background: "linear-gradient(135deg,#E8731A,#C75B0C)" }}>
               {user.name.trim().charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-[12.5px] font-bold text-[#FFF4E3] truncate leading-tight">{user.name}</div>
-              <div className="text-[10.5px] text-[#C9A27E]">{roleLabel === "Super Admin" ? "👑 Super Admin" : "Administrator"}</div>
+              <div className="text-[12px] font-bold truncate leading-tight" style={{ color: "#F0DDD0" }}>{user.name}</div>
+              <div className="text-[10px] font-semibold" style={{ color: "#B08060" }}>{roleLabel === "Super Admin" ? "👑 Super Admin" : "Admin"}</div>
             </div>
-            <button onClick={logout} title="Sign out" aria-label="Sign out" className="text-[#E8D5BF] hover:text-white text-sm cursor-pointer px-1.5">⏻</button>
+            <button onClick={logout} title="Sign out" className="text-[13px] cursor-pointer transition hover:text-white" style={{ color: "#8A6040" }}>⏻</button>
           </div>
         </div>
       </aside>
 
       {/* Main */}
       <div className="flex-1 min-w-0 flex flex-col lg:ml-60">
-        <header className={`sticky top-0 z-20 backdrop-blur border-b px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 ${darkMode ? "bg-[#2B1810]/90 border-[#3F2819]" : "bg-[#FFFDF9]/90 border-[#EADFCB]"}`}>
-          <div className="flex items-center gap-2.5 min-w-0">
+        {/* Top bar */}
+        <header className="sticky top-0 z-20 flex items-center justify-between gap-3 px-4 lg:px-6 py-0"
+          style={{ height: 58, background: darkMode ? "rgba(18,11,4,0.95)" : "rgba(255,255,255,0.96)", borderBottom: `1px solid ${darkMode ? "#2E1A0C" : "var(--line)"}`, backdropFilter: "blur(12px)" }}>
+          <div className="flex items-center gap-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              style={chip}
-              className="w-9 h-9 rounded-lg flex items-center justify-center text-base flex-shrink-0 lg:hidden cursor-pointer"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0 lg:hidden cursor-pointer transition"
+              style={{ background: "var(--surface-3)", border: "1.5px solid var(--line)", color: "var(--ink-2)" }}
               aria-label="Open menu"
-            >
-              ☰
-            </button>
+            >☰</button>
             <div className="min-w-0">
-              <h2 className={`text-[16px] font-bold truncate leading-tight ${darkMode ? "text-[#FFF4E3]" : "text-[#2B1810]"}`}>{activeMeta?.label || "Admin panel"}</h2>
-              <p className={`text-[11px] hidden sm:block truncate ${darkMode ? "text-[#C9A27E]" : "text-[#8A6F5C]"}`}>{activeMeta?.hint || "Kitchen inventory admin panel"}</p>
+              <h2 className="text-[15px] font-black truncate leading-tight" style={{ color: darkMode ? "#F0DDD0" : "var(--ink)" }}>{activeMeta?.label || "Admin Panel"}</h2>
+              <p className="text-[11px] hidden sm:block truncate" style={{ color: "var(--ink-3)" }}>{activeMeta?.hint || "Creme Castle Kitchen Inventory"}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-2.5">
-            <div style={chip} className="hidden md:flex items-center gap-1.5 text-[12px] font-semibold rounded-lg px-3 py-1.5">
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold"
+              style={{ background: "var(--brand-light)", color: "var(--brand-dark)", border: "1.5px solid rgba(232,115,26,0.18)" }}>
               📅 {today || "—"}
             </div>
-            <button
-              onClick={() => setFavorited((v) => !v)}
-              style={chip}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm cursor-pointer"
-              title={favorited ? "Remove from favorites" : "Add to favorites"}
-            >
-              {favorited ? "⭐" : "☆"}
-            </button>
-            <button
-              onClick={toggleDarkMode}
-              style={chip}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm cursor-pointer"
-              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-            >
+            <button onClick={toggleDarkMode}
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-sm cursor-pointer transition"
+              style={{ background: "var(--surface-3)", border: "1.5px solid var(--line)", color: "var(--ink-2)" }}
+              title={darkMode ? "Light mode" : "Dark mode"}>
               {darkMode ? "🌙" : "☀️"}
             </button>
-            <span style={chip} className="w-8 h-8 rounded-lg hidden sm:flex items-center justify-center text-sm cursor-default" title="Notifications">🔔</span>
-            <div className={`hidden sm:block w-px h-7 ${darkMode ? "bg-[#4A2E1E]" : "bg-[#EADFCB]"}`} />
-            <div className="hidden sm:flex items-center gap-2">
-              <div className="text-right">
-                <div className={`text-[12.5px] font-bold leading-tight ${darkMode ? "text-[#FFF4E3]" : "text-[#2B1810]"}`}>{user.name}</div>
-                <div className="text-[10px] font-semibold text-[#C75B0C]">{roleLabel === "Super Admin" ? "👑 Super Admin" : "Administrator"}</div>
+            <div className="hidden sm:block w-px h-7" style={{ background: "var(--line)" }} />
+            <div className="hidden sm:flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center font-black text-[12px] text-white"
+                style={{ background: "linear-gradient(135deg,#E8731A,#C75B0C)" }}>
+                {user.name.trim().charAt(0).toUpperCase()}
+              </div>
+              <div className="text-right hidden md:block">
+                <div className="text-[12.5px] font-bold leading-tight" style={{ color: darkMode ? "#F0DDD0" : "var(--ink)" }}>{user.name}</div>
+                <div className="text-[10px] font-semibold" style={{ color: "var(--brand)" }}>{roleLabel === "Super Admin" ? "👑 Super Admin" : "Administrator"}</div>
               </div>
             </div>
-            <button
-              onClick={logout}
-              style={darkMode ? { color: "#FFF4E3", border: "1px solid #E8731A", background: "transparent" } : { color: "#C75B0C", border: "1px solid #E8731A", background: "#FFF3E4" }}
-              className="text-xs rounded-full px-3.5 py-1.5 font-bold cursor-pointer hover:brightness-95"
-            >
+            <button onClick={logout}
+              className="text-[12px] font-bold px-3.5 py-1.5 rounded-xl cursor-pointer transition"
+              style={{ background: "var(--brand-light)", color: "var(--brand-dark)", border: "1.5px solid rgba(232,115,26,0.25)" }}>
               Sign out
             </button>
           </div>
         </header>
 
-        <main className="p-4 lg:p-6 max-w-[1400px] w-full mx-auto">
-          {!access && <div className="text-sm text-[#8A6F5C]">Loading your access…</div>}
+        <main className="p-4 lg:p-6 max-w-[1400px] w-full mx-auto fade-in">
+          {!access && <div className="text-sm" style={{ color: "var(--ink-3)" }}>Loading your access…</div>}
           {access && !visibleTabs.length && (
-            <div className="bg-white border border-[#EADFCB] rounded-2xl p-6 max-w-lg">
-              <div className="text-base font-bold mb-1">No sections assigned yet</div>
-              <p className="text-sm text-[#8A6F5C]">Your account is active, but a Super Admin hasn&apos;t given you access to any section. Please ask them to update your access.</p>
+            <div className="card p-6 max-w-lg">
+              <div className="text-base font-bold mb-1" style={{ color: "var(--ink)" }}>No sections assigned yet</div>
+              <p className="text-sm" style={{ color: "var(--ink-3)" }}>Your account is active, but a Super Admin hasn&apos;t given you access to any section. Please ask them to update your access.</p>
             </div>
           )}
           {activeTab === "dashboard" && <DashboardTab user={user} showToast={showToast} dark={darkMode} quickTabs={quickTabs} onNavigate={goTo} />}
@@ -287,8 +279,8 @@ export default function AdminApp({ user }: { user: SessionUser }) {
       </div>
 
       {toast && (
-        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 px-4.5 py-2.5 rounded-xl text-sm font-semibold text-white z-50 shadow-lg ${toast.err ? "bg-[#C0463F]" : "bg-[#3B2417]"}`}>
-          {toast.msg}
+        <div className={`cc-toast ${toast.err ? "err" : "ok"}`}>
+          {toast.err ? "⚠️ " : "✓ "}{toast.msg}
         </div>
       )}
     </div>
@@ -472,12 +464,21 @@ function ReportTab({ departments, showToast }: { departments: Department[]; show
 
   return (
     <div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 mb-5">
-        <div className="bg-white border border-[#EADFCB] rounded-2xl p-4.5"><div className="text-2xl font-extrabold text-[#3B2417]">{stats.totalEntries}</div><div className="text-[12.5px] font-semibold">Total entries</div></div>
-        <div className="bg-white border border-[#EADFCB] rounded-2xl p-4.5"><div className="text-2xl font-extrabold text-[#3B2417]">{stats.totalQty}</div><div className="text-[12.5px] font-semibold">Total qty</div></div>
+      <div className="page-header">
+        <div><h2 className="page-title">Reports</h2><p className="page-sub">Inventory entries by date & department</p></div>
       </div>
-      <div className="bg-white border border-[#EADFCB] rounded-2xl p-5 mb-5">
-        <div className="flex flex-wrap gap-2.5 items-end">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        <div className="stat-card">
+          <span className="text-[28px] font-black" style={{ color: "var(--ink)" }}>{stats.totalEntries}</span>
+          <span className="text-[12px] font-semibold" style={{ color: "var(--ink-3)" }}>Total entries</span>
+        </div>
+        <div className="stat-card">
+          <span className="text-[28px] font-black" style={{ color: "var(--ink)" }}>{stats.totalQty}</span>
+          <span className="text-[12px] font-semibold" style={{ color: "var(--ink-3)" }}>Total qty</span>
+        </div>
+      </div>
+      <div className="card p-5 mb-5">
+        <div className="flex flex-wrap gap-3 items-end">
           <Field label="From"><TextInput type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></Field>
           <Field label="To"><TextInput type="date" value={to} onChange={(e) => setTo(e.target.value)} /></Field>
           <Field label="Department">
@@ -487,27 +488,27 @@ function ReportTab({ departments, showToast }: { departments: Department[]; show
             </SelectInput>
           </Field>
           <Field label="Section"><TextInput value={section} onChange={(e) => setSection(e.target.value)} placeholder="e.g. Opening" /></Field>
-          <Btn variant="primary" onClick={run}>🔎 Generate report</Btn>
-          <Btn onClick={exportCsv}>⬇️ Export CSV</Btn>
+          <div className="flex gap-2 pt-5">
+            <Btn variant="primary" onClick={run}>🔎 Generate</Btn>
+            <Btn onClick={exportCsv}>⬇️ CSV</Btn>
+          </div>
         </div>
       </div>
       <Table head={["Date", "Dept", "Item", "Section", "Qty", "By", "Status"]}>
         {rows.map((r, i) => {
           const dept = departments.find((d) => d.id === r.departmentId);
           return (
-            <tr key={i} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-              <td className="px-3 py-2.5">{r.date}</td>
-              <td className="px-3 py-2.5">{dept?.name || r.departmentId}</td>
-              <td className="px-3 py-2.5">{r.itemName}</td>
-              <td className="px-3 py-2.5">{r.sectionName}</td>
-              <td className="px-3 py-2.5">{r.qty}</td>
-              <td className="px-3 py-2.5">{r.enteredBy}</td>
-              <td className="px-3 py-2.5">
-                {r.status === "Void" ? (
-                  <span title={r.voidReason} className="text-[11px] font-bold px-2 py-1 rounded-full text-[#C0463F] bg-red-50">Void</span>
-                ) : (
-                  <span className="text-[11px] font-bold px-2 py-1 rounded-full text-[#1E7F72] bg-teal-50">Active</span>
-                )}
+            <tr key={i}>
+              <td>{r.date}</td>
+              <td>{dept?.name || r.departmentId}</td>
+              <td>{r.itemName}</td>
+              <td>{r.sectionName}</td>
+              <td className="font-bold">{r.qty}</td>
+              <td>{r.enteredBy}</td>
+              <td>
+                {r.status === "Void"
+                  ? <span title={r.voidReason} className="badge badge-red badge-dot">Void</span>
+                  : <span className="badge badge-green badge-dot">Active</span>}
               </td>
             </tr>
           );
@@ -542,10 +543,13 @@ function UploadTab({ showToast }: { showToast: Toast }) {
     reader.readAsText(file);
   }
   return (
-    <div className="bg-white border border-[#EADFCB] rounded-2xl p-5 max-w-xl">
-      <p className="text-sm text-[#8A6F5C] mb-4">CSV columns: date, departmentId, itemName, sectionName, qty, enteredBy</p>
-      <input type="file" accept=".csv" onChange={handleFile} className="text-sm" />
-      {result && <div className="mt-3 text-sm">{result}</div>}
+    <div>
+      <div className="page-header"><div><h2 className="page-title">Bulk Upload</h2><p className="page-sub">Import historical inventory data from CSV</p></div></div>
+      <div className="card p-6 max-w-xl">
+        <p className="text-[13px] mb-4" style={{ color: "var(--ink-3)" }}>CSV columns: <strong>date, departmentId, itemName, sectionName, qty, enteredBy</strong></p>
+        <input type="file" accept=".csv" onChange={handleFile} className="text-[13px]" />
+        {result && <div className="mt-4 text-[13px] p-3 rounded-xl" style={{ background: "var(--surface-3)", border: "1px solid var(--line)", color: "var(--ink-2)" }}>{result}</div>}
+      </div>
     </div>
   );
 }
@@ -575,13 +579,13 @@ function UsersTab({ departments, canManage, showToast }: { departments: Departme
         {users.map((u) => {
           const dept = departments.find((d) => d.id === u.departmentId);
           return (
-            <tr key={u.email} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-              <td className="px-3 py-2.5">{u.email}</td>
-              <td className="px-3 py-2.5">{u.name}</td>
-              <td className="px-3 py-2.5">{dept?.name || "—"}</td>
-              <td className="px-3 py-2.5">{u.role}</td>
-              <td className="px-3 py-2.5"><Badge ok={u.active} /></td>
-              {canManage && <td className="px-3 py-2.5">
+            <tr key={u.email} className="">
+              <td className="">{u.email}</td>
+              <td className="">{u.name}</td>
+              <td className="">{dept?.name || "—"}</td>
+              <td className="">{u.role}</td>
+              <td className=""><Badge ok={u.active} /></td>
+              {canManage && <td className="">
                 <IconBtn onClick={() => setEditing(u)}>✎</IconBtn>
                 {u.active && (
                   <IconBtn danger onClick={async () => {
@@ -655,12 +659,12 @@ function DepartmentsTab({ departments, setDepartments, showToast }: { department
       </div>
       <Table head={["ID", "Name", "Order", "Active", "Actions"]}>
         {rows.map((d) => (
-          <tr key={d.id} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-            <td className="px-3 py-2.5">{d.id}</td>
-            <td className="px-3 py-2.5">{d.name}</td>
-            <td className="px-3 py-2.5">{d.order}</td>
-            <td className="px-3 py-2.5"><Badge ok={d.active} /></td>
-            <td className="px-3 py-2.5">
+          <tr key={d.id} className="">
+            <td className="">{d.id}</td>
+            <td className="">{d.name}</td>
+            <td className="">{d.order}</td>
+            <td className=""><Badge ok={d.active} /></td>
+            <td className="">
               <IconBtn onClick={() => setEditing(d)}>✎</IconBtn>
               {d.active && (
                 <IconBtn danger onClick={async () => {
@@ -720,12 +724,12 @@ function CategoriesTab({ departments, showToast }: { departments: Department[]; 
         {rows.map((c) => {
           const dept = departments.find((d) => d.id === c.deptId);
           return (
-            <tr key={c.id} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-              <td className="px-3 py-2.5">{dept?.name || c.deptId}</td>
-              <td className="px-3 py-2.5">{c.name}</td>
-              <td className="px-3 py-2.5">{c.order}</td>
-              <td className="px-3 py-2.5"><Badge ok={c.active} /></td>
-              <td className="px-3 py-2.5">
+            <tr key={c.id} className="">
+              <td className="">{dept?.name || c.deptId}</td>
+              <td className="">{c.name}</td>
+              <td className="">{c.order}</td>
+              <td className=""><Badge ok={c.active} /></td>
+              <td className="">
                 <IconBtn onClick={() => setEditing(c)}>✎</IconBtn>
                 {c.active && (
                   <IconBtn danger onClick={async () => {
@@ -841,7 +845,7 @@ function ItemsTab({ departments, showToast }: { departments: Department[]; showT
       </div>
 
       {bulkOpen && (
-        <div className="bg-white border border-[#EADFCB] rounded-2xl p-5 mb-4">
+        <div className="card p-5 mb-4">
           <h3 className="text-[14.5px] font-bold mb-1.5">Bulk import items</h3>
           <p className="text-[13px] text-[#8A6F5C] mb-3">
             CSV columns: <b>department, category, itemName, unit, remarks</b> (remarks optional). Department must
@@ -849,11 +853,11 @@ function ItemsTab({ departments, showToast }: { departments: Department[]; showT
           </p>
           <input type="file" accept=".csv" onChange={handleBulkFile} disabled={bulkRunning} className="text-sm" />
           {bulkRunning && <div className="mt-3 text-sm text-[#8A6F5C]">Importing… this can take a bit for 200+ rows.</div>}
-          {bulkResult && <pre className="mt-3 text-xs whitespace-pre-wrap bg-[#FBF5EA] border border-[#EADFCB] rounded-lg p-3">{bulkResult}</pre>}
+          {bulkResult && <pre className="mt-3 text-xs whitespace-pre-wrap rounded-xl p-3" style={{ background: "var(--surface-3)", border: "1px solid var(--line)" }}>{bulkResult}</pre>}
         </div>
       )}
 
-      <div className="bg-white border border-[#EADFCB] rounded-2xl p-4 mb-4">
+      <div className="card p-4 mb-4">
         <TextInput placeholder="Search items…" value={search} onChange={(e) => setSearch(e.target.value)} />
       </div>
       <Table head={["Department", "Category", "Name", "Unit", "Active", "Actions"]}>
@@ -864,13 +868,13 @@ function ItemsTab({ departments, showToast }: { departments: Department[]; showT
             : "All departments";
           const cat = categories.find((c) => c.id === it.catId);
           return (
-            <tr key={it.id} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-              <td className="px-3 py-2.5">{deptNames}</td>
-              <td className="px-3 py-2.5">{cat?.name || it.catId}</td>
-              <td className="px-3 py-2.5">{it.name}</td>
-              <td className="px-3 py-2.5">{it.unit}</td>
-              <td className="px-3 py-2.5"><Badge ok={it.active} /></td>
-              <td className="px-3 py-2.5">
+            <tr key={it.id} className="">
+              <td className="">{deptNames}</td>
+              <td className="">{cat?.name || it.catId}</td>
+              <td className="">{it.name}</td>
+              <td className="">{it.unit}</td>
+              <td className=""><Badge ok={it.active} /></td>
+              <td className="">
                 <IconBtn onClick={() => setEditing(it)}>✎</IconBtn>
                 {it.active && (
                   <IconBtn danger onClick={async () => {
@@ -992,12 +996,12 @@ function SectionsTab({ departments, showToast }: { departments: Department[]; sh
           const scopeLabel = !s.deptId ? "All departments" :
             s.deptId.split(",").map((id) => departments.find((d) => d.id === id.trim())?.name || id).join(", ");
           return (
-            <tr key={s.id} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-              <td className="px-3 py-2.5">{s.name}</td>
-              <td className="px-3 py-2.5">{scopeLabel}</td>
-              <td className="px-3 py-2.5">{s.order}</td>
-              <td className="px-3 py-2.5"><Badge ok={s.active} /></td>
-              <td className="px-3 py-2.5">
+            <tr key={s.id} className="">
+              <td className="">{s.name}</td>
+              <td className="">{scopeLabel}</td>
+              <td className="">{s.order}</td>
+              <td className=""><Badge ok={s.active} /></td>
+              <td className="">
                 <IconBtn onClick={() => setEditing(s)}>✎</IconBtn>
                 {s.active && (
                   <IconBtn danger onClick={async () => {
@@ -1131,16 +1135,16 @@ function DevicesTab({ showToast }: { showToast: Toast }) {
 
   return (
     <div>
-      <div className="bg-white border border-[#EADFCB] rounded-2xl p-4 mb-4">
+      <div className="card p-4 mb-4">
         <TextInput placeholder="Search by user name…" value={search} onChange={(e) => setSearch(e.target.value)} />
       </div>
       <Table head={["User", "Device", "Last login", "Actions"]}>
         {filtered.map((x) => (
-          <tr key={x.userId + x.deviceId} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-            <td className="px-3 py-2.5">{x.userName}</td>
-            <td className="px-3 py-2.5">{x.deviceInfo}</td>
-            <td className="px-3 py-2.5">{new Date(x.loginTime).toLocaleString()}</td>
-            <td className="px-3 py-2.5">
+          <tr key={x.userId + x.deviceId} className="">
+            <td className="">{x.userName}</td>
+            <td className="">{x.deviceInfo}</td>
+            <td className="">{new Date(x.loginTime).toLocaleString()}</td>
+            <td className="">
               <IconBtn danger onClick={async () => {
                 if (!confirm(`Remove this device from ${x.userName}'s account?`)) return;
                 const res = await rpc("removeDeviceSession", { userId: x.userId, deviceId: x.deviceId });
@@ -1164,12 +1168,12 @@ function LogsTab() {
   return (
     <Table head={["Time", "User", "Action", "Entity", "Details"]}>
       {rows.map((l, i) => (
-        <tr key={i} className="border-b border-[#EADFCB] hover:bg-[#FBF5EA]">
-          <td className="px-3 py-2.5">{new Date(l.timestamp).toLocaleString()}</td>
-          <td className="px-3 py-2.5">{l.userName}</td>
-          <td className="px-3 py-2.5">{l.action}</td>
-          <td className="px-3 py-2.5">{l.entityType} {l.entityId}</td>
-          <td className="px-3 py-2.5">{l.details}</td>
+        <tr key={i} className="">
+          <td className="">{new Date(l.timestamp).toLocaleString()}</td>
+          <td className="">{l.userName}</td>
+          <td className="">{l.action}</td>
+          <td className="">{l.entityType} {l.entityId}</td>
+          <td className="">{l.details}</td>
         </tr>
       ))}
     </Table>

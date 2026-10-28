@@ -261,46 +261,47 @@ export default function DeptApp({ user }: { user: SessionUser }) {
   const filterActive = statusFilter !== "all";
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: "#FBF3E6" }}>
+    <div className="min-h-screen pb-28" style={{ background: "var(--bg)" }}>
       <div className="max-w-3xl mx-auto sm:px-4 sm:pt-3">
         {/* ===== Brand header ===== */}
         <header
-          className="px-5 pt-5 pb-9 sm:rounded-t-[28px]"
-          style={{ background: "linear-gradient(160deg,#703817 0%,#4E250E 100%)" }}
+          className="px-5 pt-5 pb-10 sm:rounded-t-[28px] relative overflow-hidden"
+          style={{ background: "linear-gradient(160deg,#1E0F06 0%,#3A1E0A 60%,#C75B0C 150%)" }}
         >
-          <div className="flex items-center gap-4">
-            <div className="text-white font-extrabold text-[22px] leading-[1.02] tracking-tight flex-shrink-0">
-              Creme
-              <br />
-              Castle
+          {/* Glow decoration */}
+          <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(232,115,26,0.25),transparent)" }} />
+          <div className="flex items-center gap-4 relative">
+            <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 shadow-lg" style={{ background: "linear-gradient(135deg,#F28C38,#C75B0C)" }}>
+              <img src="https://lh3.googleusercontent.com/d/1XNpcNjDPcpFxIoDjHMhoWOYAJtqQWshj=w128-h128" alt="" className="w-full h-full object-cover" />
             </div>
-            <div className="w-px self-stretch my-1 bg-white/30 flex-shrink-0" />
+            <div className="w-px self-stretch my-1 flex-shrink-0" style={{ background: "rgba(255,255,255,0.2)" }} />
             <div className="min-w-0 flex-1">
-              <div className="text-white font-bold text-[17px] leading-tight truncate">{user.name}</div>
-              <div className="text-white/75 text-[12px] mt-0.5 truncate">{displayDateFull(date)}</div>
+              <div className="text-white font-black text-[17px] leading-tight truncate">Creme Castle</div>
+              <div className="text-[12px] mt-0.5 truncate font-semibold" style={{ color: "rgba(255,255,255,0.65)" }}>{user.name} · {displayDateFull(date)}</div>
             </div>
             <div className="relative flex-shrink-0">
               <button
                 onClick={() => setMenuOpen((v) => !v)}
-                className="flex items-center gap-1.5 cursor-pointer text-white/80"
+                className="flex items-center gap-1.5 cursor-pointer"
                 aria-haspopup="menu"
                 aria-expanded={menuOpen}
                 aria-label="Account menu"
               >
-                <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[15px] font-extrabold" style={{ color: "#5A2B12" }}>
+                <span className="w-9 h-9 rounded-full flex items-center justify-center text-[14px] font-black text-white" style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.3)" }}>
                   {initial}
                 </span>
-                <IconChevron size={15} />
+                <IconChevron size={14} />
               </button>
               {menuOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
-                  <div className="absolute right-0 top-12 z-50 w-52 rounded-2xl p-1.5 shadow-xl" style={{ background: "#FFFDF8", border: "1px solid #EADBC4" }}>
-                    <div className="px-3 py-2 text-[12px] font-bold truncate" style={{ color: "#2E1B0E" }}>{user.name}</div>
+                  <div className="absolute right-0 top-11 z-50 w-52 rounded-2xl p-1.5 shadow-2xl" style={{ background: "var(--surface)", border: "1px solid var(--line)" }}>
+                    <div className="px-3 py-2 text-[12px] font-bold truncate" style={{ color: "var(--ink)" }}>{user.name}</div>
+                    <div className="h-px mx-2 mb-1" style={{ background: "var(--line)" }} />
                     <button
                       onClick={logout}
-                      className="w-full text-left rounded-xl px-3 py-2 text-[13px] font-bold cursor-pointer hover:bg-[#FBEDE6]"
-                      style={{ color: "#B42318" }}
+                      className="w-full text-left rounded-xl px-3 py-2 text-[13px] font-bold cursor-pointer"
+                      style={{ color: "var(--red)" }}
                     >
                       Sign out
                     </button>
@@ -311,10 +312,10 @@ export default function DeptApp({ user }: { user: SessionUser }) {
           </div>
         </header>
 
-        {/* ===== Cream sheet: sticks to the top while the list scrolls ===== */}
+        {/* ===== Sticky toolbar ===== */}
         <div
           className="sticky top-0 z-30 -mt-5 rounded-t-[26px] px-4 pt-4 pb-3"
-          style={{ background: "#FBF3E6", boxShadow: "0 6px 14px -10px rgba(78,37,14,0.35)" }}
+          style={{ background: "var(--bg)", boxShadow: "0 6px 20px -10px rgba(78,37,14,0.20)" }}
         >
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
             <button
@@ -401,7 +402,7 @@ export default function DeptApp({ user }: { user: SessionUser }) {
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search item…"
                     className="w-full h-11 rounded-2xl pl-10 pr-3 text-[14px] focus:outline-none"
-                    style={{ background: "#FFFDF8", border: "1.5px solid #EBD7BA", color: "#3A2414" }}
+                    style={{ background: "var(--surface)", border: "1.5px solid var(--line)", color: "var(--ink)" }}
                   />
                 </div>
                 <div className="relative flex-shrink-0">
@@ -457,7 +458,7 @@ export default function DeptApp({ user }: { user: SessionUser }) {
 
         {view === "review" && (
           <div className="px-4 pt-2">
-            <div className="rounded-2xl p-4" style={{ background: "#FFFDF8", border: "1px solid #EADBC4" }}>
+            <div className="card p-4">
               <ReconciliationView
                 role="Department User"
                 departments={[]}
@@ -474,12 +475,12 @@ export default function DeptApp({ user }: { user: SessionUser }) {
         <div>
           <div className="overflow-hidden">
             {dayLocked && (
-              <div className="mx-4 mt-3 flex items-center gap-2 px-3.5 py-2.5 rounded-xl" style={{ background: "#F5E6D0", border: "1px solid #E8D3B5" }}>
-                <span className="text-base">🔒</span>
-                <span className="text-[12px] font-semibold" style={{ color: "#6B3414" }}>
+              <div className="mx-4 mt-3 flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "var(--amber-bg)", border: "1px solid rgba(217,154,26,0.3)" }}>
+                <span className="text-base flex-shrink-0">🔒</span>
+                <span className="text-[12.5px] font-semibold" style={{ color: "var(--amber)" }}>
                   {editWindow !== null
-                    ? `View only — entries can be edited up to ${editWindow} day${editWindow === 1 ? "" : "s"} back. You can see this date's data but can't change it.`
-                    : "View only — this date is outside your edit window. You can see the data but can't change it."}
+                    ? `View only — entries can be edited up to ${editWindow} day${editWindow === 1 ? "" : "s"} back.`
+                    : "View only — this date is outside your edit window."}
                 </span>
               </div>
             )}
@@ -488,7 +489,7 @@ export default function DeptApp({ user }: { user: SessionUser }) {
             <div className="mx-4 mt-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-base">🛍️</span>
-                <span className="text-[15px] font-bold text-[#2E1B0E]">{section?.displayName} Items</span>
+                <span className="text-[15px] font-bold" style={{ color: "var(--ink)" }}>{section?.displayName} Items</span>
               </div>
             </div>
 
@@ -506,31 +507,27 @@ export default function DeptApp({ user }: { user: SessionUser }) {
                   const canEditThisItem = !dayLocked;
 
                   return (
-                    <div key={it.id} className="rounded-2xl p-3.5" style={{ background: "#FFFDF8", border: "1px solid #EADBC4" }}>
+                    <div key={it.id} className="card p-3.5 transition hover:shadow-md">
                       {/* Item name row */}
                       <div className="flex items-start justify-between gap-2 mb-2.5">
                         <div className="flex items-start gap-2.5 min-w-0">
-                          <div className="w-9 h-9 rounded-full flex items-center justify-center text-base flex-shrink-0" style={{ background: "#F5E6D0" }}>
+                          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0" style={{ background: "var(--brand-light)" }}>
                             🧁
                           </div>
                           <div className="min-w-0">
-                            <div className="text-[13.5px] font-bold leading-snug text-[#2E1B0E]">{it.name}</div>
-                            <div className="text-[11px] text-[#8C7358]">{catName(it.catId)} · {it.unit}</div>
+                            <div className="text-[13.5px] font-bold leading-snug" style={{ color: "var(--ink)" }}>{it.name}</div>
+                            <div className="text-[11px]" style={{ color: "var(--ink-3)" }}>{catName(it.catId)} · {it.unit}</div>
                             {existing?.isCorrection && (
-                              <span className="inline-block mt-1 text-[9px] rounded px-1.5 py-0.5 font-bold" style={{ background: "#F5E6D0", color: "#6B3414" }}>
-                                Voided history
-                              </span>
+                              <span className="badge badge-amber mt-1">Voided history</span>
                             )}
                           </div>
                         </div>
                         {hasActive ? (
-                          <span className="text-[11px] font-bold whitespace-nowrap flex-shrink-0 px-2.5 py-1 rounded-full" style={{ background: "#E3F5EC", color: "#1E8F5F" }}>✓ Saved</span>
+                          <span className="badge badge-green badge-dot">Saved</span>
                         ) : !canEditThisItem ? (
-                          <span className="text-[11px] font-bold text-[#8C7358] whitespace-nowrap flex-shrink-0">🔒 Locked</span>
+                          <span className="text-[11px] font-bold flex-shrink-0" style={{ color: "var(--ink-3)" }}>🔒 Locked</span>
                         ) : (
-                          <span className="text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap flex-shrink-0" style={{ background: "#F5E6D0", color: "#6B3414" }}>
-                            ⏳ Pending
-                          </span>
+                          <span className="badge badge-amber badge-dot">Pending</span>
                         )}
                       </div>
 
@@ -547,9 +544,9 @@ export default function DeptApp({ user }: { user: SessionUser }) {
                             placeholder="0"
                             className="w-full h-12 rounded-xl px-4 text-xl font-extrabold text-center focus:outline-none"
                             style={{
-                              background: hasActive ? "#E3F5EC" : "#F6ECDC",
-                              border: `1.5px solid ${hasActive ? "#B9E6CE" : "#E6D6BE"}`,
-                              color: hasActive ? "#1E8F5F" : "#4A2F1C",
+                              background: hasActive ? "var(--green-bg)" : "var(--surface-2)",
+                              border: `1.5px solid ${hasActive ? "var(--green)" : "var(--line)"}`,
+                              color: hasActive ? "var(--green)" : "var(--ink)",
                             }}
                           />
                           {isOpeningSuggestion && !hasPending && (
